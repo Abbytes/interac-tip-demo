@@ -1,6 +1,6 @@
 /**
- * Client customization — edit this file (or swap for CMS/env later).
- * Demo values for NovaStream pitch page.
+ * Ab Creative World tip page config.
+ * Interac address comes from env (INTERAC_TIP_EMAIL) — never commit the real address.
  */
 export type CreatorConfig = {
   name: string;
@@ -11,27 +11,28 @@ export type CreatorConfig = {
   goalRaised: number;
   goalTarget: number;
   currency: "CAD";
+  /** Loaded from INTERAC_TIP_EMAIL — never render as visible text */
   interacEmail: string;
   interacPhone?: string;
-  /** Suggested message fans put in the e-Transfer note */
   interacMessageHint: string;
-  /** Stripe Payment Link URL — leave empty to show disabled placeholder */
   stripePaymentLink: string;
+  hideInteracAddress: boolean;
 };
 
 export const creator: CreatorConfig = {
-  name: "NovaStream",
-  handle: "@novastream",
-  tagline: "Canadian streams · tips that actually land",
-  avatarInitials: "NS",
-  goalLabel: "New mic",
-  goalRaised: 42,
-  goalTarget: 180,
+  name: "Ab Creative World",
+  handle: "@abcreativeworld",
+  tagline: "Tips keep the creative work going — any amount helps",
+  avatarInitials: "AB",
+  goalLabel: "Keep creating",
+  goalRaised: 0,
+  goalTarget: 200,
   currency: "CAD",
-  interacEmail: "tips@example.ca",
+  interacEmail: process.env.INTERAC_TIP_EMAIL?.trim() || "",
   interacPhone: undefined,
-  interacMessageHint: "Tip for NovaStream",
-  stripePaymentLink: "",
+  interacMessageHint: "Tip for Ab Creative World",
+  stripePaymentLink: process.env.STRIPE_PAYMENT_LINK?.trim() || "",
+  hideInteracAddress: true,
 };
 
 export function goalPercent(c: CreatorConfig = creator): number {

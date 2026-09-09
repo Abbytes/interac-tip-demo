@@ -8,6 +8,7 @@ import { CopyButtonClient } from "./copy-button";
 export default function TipPage() {
   const pct = goalPercent();
   const hasStripe = Boolean(creator.stripePaymentLink);
+  const hasInterac = Boolean(creator.interacEmail);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-lg flex-col px-4 py-8 sm:px-6 sm:py-12">
@@ -35,11 +36,8 @@ export default function TipPage() {
         aria-labelledby="goal-heading"
       >
         <div className="flex items-baseline justify-between gap-3">
-          <h2
-            id="goal-heading"
-            className="text-sm font-medium text-studio-text"
-          >
-            Toward{" "}
+          <h2 id="goal-heading" className="text-sm font-medium text-studio-text">
+            Soft goal ·{" "}
             <span className="text-studio-accent">{creator.goalLabel}</span>
           </h2>
           <span className="text-xs text-studio-muted">{pct}%</span>
@@ -49,6 +47,9 @@ export default function TipPage() {
           <span className="text-sm font-normal text-studio-muted">
             of {formatCad(creator.goalTarget)}
           </span>
+        </p>
+        <p className="mt-1 text-xs text-studio-muted">
+          Not a tip cap — fans can send any amount.
         </p>
         <div
           className="mt-4 h-2 overflow-hidden rounded-full bg-studio-border"
@@ -81,7 +82,7 @@ export default function TipPage() {
               Interac e-Transfer
             </h2>
             <p className="text-xs text-studio-muted">
-              Fastest for fans in Canada — no platform cut
+              Canada · address stays private on this page
             </p>
           </div>
         </div>
@@ -92,16 +93,24 @@ export default function TipPage() {
               1
             </span>
             <div className="min-w-0 flex-1">
-              <p className="font-medium text-studio-text">Send to this email</p>
-              <CopyRow value={creator.interacEmail} label="Interac email" />
-              {creator.interacPhone ? (
+              <p className="font-medium text-studio-text">
+                Copy the Interac tip address
+              </p>
+              {hasInterac ? (
+                <div className="mt-2 flex items-stretch gap-2">
+                  <div className="flex min-w-0 flex-1 items-center rounded-lg border border-studio-border bg-studio-bg px-3 py-2.5 text-sm text-studio-muted">
+                    Hidden · tap Copy → paste in your bank app
+                  </div>
+                  <CopyButtonClient
+                    value={creator.interacEmail}
+                    ariaLabel="Copy Interac tip address"
+                  />
+                </div>
+              ) : (
                 <p className="mt-2 text-xs text-studio-muted">
-                  Or phone:{" "}
-                  <span className="font-mono text-studio-text">
-                    {creator.interacPhone}
-                  </span>
+                  Set INTERAC_TIP_EMAIL in .env.local to enable tips.
                 </p>
-              ) : null}
+              )}
             </div>
           </li>
           <li className="flex gap-3">
@@ -116,10 +125,6 @@ export default function TipPage() {
                 value={creator.interacMessageHint}
                 label="Suggested message"
               />
-              <p className="mt-2 text-xs leading-relaxed text-studio-muted">
-                Autodeposit may be on — if asked for a security question, check
-                the creator&apos;s socials or use the message field above.
-              </p>
             </div>
           </li>
           <li className="flex gap-3">
@@ -129,8 +134,8 @@ export default function TipPage() {
             <div>
               <p className="font-medium text-studio-text">Any amount helps</p>
               <p className="mt-1 text-xs leading-relaxed text-studio-muted">
-                Open your bank app → Interac e-Transfer → send. You&apos;ll get
-                a confirmation from your bank.
+                Open your bank app → Interac e-Transfer → paste address → send.
+                No tip cap.
               </p>
             </div>
           </li>
@@ -169,7 +174,7 @@ export default function TipPage() {
               Tip with card
             </button>
             <p className="mt-2 text-center text-[11px] text-studio-muted">
-              Stripe Payment Link goes here
+              Stripe Payment Link goes here when ready
             </p>
           </div>
         )}
@@ -177,13 +182,7 @@ export default function TipPage() {
 
       <footer className="mt-auto border-t border-studio-border/60 pt-6 text-center">
         <p className="text-[11px] uppercase tracking-[0.18em] text-studio-muted">
-          Interac Tip Page · demo
-        </p>
-        <p className="mt-2 text-xs text-studio-muted/80">
-          Built for Canadian creators — customize in{" "}
-          <code className="rounded bg-studio-panel px-1 py-0.5 text-[11px] text-studio-accent">
-            lib/creator.ts
-          </code>
+          Ab Creative World · private tip page
         </p>
       </footer>
     </div>
